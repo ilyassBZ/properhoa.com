@@ -13,7 +13,7 @@ export default function NewsletterForm({ variant = "default" }) {
     setStatus("");
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3001";
+      const apiUrl = import.meta.env.VITE_API_URL || "http://135.125.191.63:3001";
       await axios.post(`${apiUrl}/subscribe`, { email });
       setStatus("success");
       setEmail("");
@@ -39,8 +39,8 @@ export default function NewsletterForm({ variant = "default" }) {
             required
             disabled={isLoading}
           />
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="submit-button"
             disabled={isLoading}
           >

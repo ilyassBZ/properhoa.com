@@ -5,10 +5,10 @@
 ### 1️⃣ Configure Your Ports & API URL
 
 ```bash
-# Create .env file
+# Create .env file (using port 3000 to avoid conflicts with port 8080)
 cat > .env << 'EOF'
 BACKEND_PORT=3001
-FRONTEND_PORT=8080
+FRONTEND_PORT=3000
 VITE_API_URL=http://YOUR_SERVER_IP:3001
 EOF
 
@@ -22,9 +22,10 @@ EOF
 - Your server's IP: `http://123.456.789.10:3001`
 - Or your domain: `https://api.properhoa.com`
 
-**Change ports if needed:**
-- If port 3001 is busy → use 5001, 4000, etc.
-- If port 8080 is busy → use 9090, 3000, etc.
+**⚠️ Port 3000 or 3001 already in use?**
+- Change `FRONTEND_PORT=3000` → to `5173`, `9090`, or any available port
+- Change `BACKEND_PORT=3001` → to `5001`, `4000`, or any available port
+- See `CHANGE_PORTS.md` for detailed instructions
 
 ### 2️⃣ Deploy with Docker
 
@@ -38,10 +39,12 @@ docker-compose up -d --build
 
 ### 3️⃣ Access Your App
 
-- **Frontend:** `http://YOUR_SERVER_IP:8080`
+- **Frontend:** `http://YOUR_SERVER_IP:3000`
 - **Backend:** `http://YOUR_SERVER_IP:3001`
 
 Done! 🎉
+
+**Note:** Port 3000 is used instead of 8080 to avoid conflicts with other apps.
 
 ---
 
@@ -71,16 +74,19 @@ docker-compose up -d --build
 
 ## 🔧 Port Conflicts?
 
-If your ports are already in use:
+If port 3000 or 3001 are already in use, change them:
 
 ```bash
 # Edit .env
 nano .env
 
-# Change to available ports:
+# Change to available ports (example):
 BACKEND_PORT=5001
 FRONTEND_PORT=9090
 VITE_API_URL=http://YOUR_SERVER_IP:5001
+
+# Also update client/.env.production:
+echo "VITE_API_URL=http://YOUR_SERVER_IP:5001" > client/.env.production
 ```
 
 Then restart:
@@ -88,6 +94,8 @@ Then restart:
 docker-compose down
 docker-compose up -d --build
 ```
+
+**📖 Need help choosing ports? Check `CHANGE_PORTS.md` for detailed guide!**
 
 ---
 

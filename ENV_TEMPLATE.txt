@@ -1,0 +1,45 @@
+# ============================================
+# ENV CONFIGURATION TEMPLATES
+# ============================================
+
+# ====================
+# 1. Root .env file
+# ====================
+# Copy this to: .env (in root directory)
+
+BACKEND_PORT=3001
+FRONTEND_PORT=8080
+VITE_API_URL=http://localhost:3001
+
+
+# ====================
+# 2. Client Production ENV
+# ====================
+# Copy this to: client/.env.production
+
+VITE_API_URL=http://localhost:3001
+
+
+# ============================================
+# INSTRUCTIONS FOR YOUR SERVER:
+# ============================================
+
+# 1. Create .env in root directory with your ports:
+cat > .env << 'EOF'
+BACKEND_PORT=3001
+FRONTEND_PORT=8080
+VITE_API_URL=http://YOUR_SERVER_IP:3001
+EOF
+
+# 2. Create client/.env.production with your API URL:
+cat > client/.env.production << 'EOF'
+VITE_API_URL=http://YOUR_SERVER_IP:3001
+EOF
+
+# 3. If using a domain, replace with:
+#    VITE_API_URL=https://api.yourdomain.com
+
+# 4. If your ports are in use, change:
+#    BACKEND_PORT=5001
+#    FRONTEND_PORT=9090
+

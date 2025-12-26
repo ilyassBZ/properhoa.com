@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build: ./server
+    container_name: properhoa-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    environment:
+      - PORT=3001
+      - EMAIL_FILE=/app/data/emails.csv
+    volumes:
+      - ./data:/app/data
+    networks:
+      - properhoa-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend React App
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: properhoa-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      - backend
+    networks:
+      - properhoa-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  properhoa-network:
+    driver: bridge
+
+volumes:
+  properhoa-data:
+
